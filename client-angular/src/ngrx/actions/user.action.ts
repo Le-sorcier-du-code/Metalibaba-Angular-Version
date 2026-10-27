@@ -49,7 +49,6 @@ export const UserStore = signalStore(
   withMethods((store:any, http = inject(HttpClient)) => {
     const apiUrl = 'http://localhost:5000/api/user';
 
-    // Helper pour gérer les erreurs proprement
     const handleError = (error: any) => {
       const message = error?.error?.message || error?.message || 'Une erreur est survenue';
       patchState(store, { error: message, loading: false });
@@ -86,7 +85,7 @@ export const UserStore = signalStore(
         )
       ),
 
-      updateArticle: rxMethod<{
+      updateUser: rxMethod<{
         userId: string;
         name: string;
         address: string
@@ -98,7 +97,7 @@ export const UserStore = signalStore(
               tap({
                 next: () => {
                   patchState(store, (state:any) => ({
-                    articles: state.articles.map((u:any) =>
+                    users: state.users.map((u:any) =>
                       u._id === userId
                         ? { ...u, name, address }
                         : u
@@ -115,7 +114,7 @@ export const UserStore = signalStore(
         )
       ),
 
-      uploadUserPicture: rxMethod<{ data: FormData; articleId: string }>(
+      uploadUserPicture: rxMethod<{ data: FormData; userId: string }>(
         pipe(
           switchMap(({ data, userId }) =>
             http.post<{ picture?: string; errors?: any }>(`${apiUrl}/upload-userPic`, data).pipe(
@@ -131,9 +130,9 @@ export const UserStore = signalStore(
                       users: state.users.map((a:any) =>
                         a._id === userId ? { ...a, picture: user.picture } : a
                       ),
-                      selectedArticle: state.selectedArticle?._id === userId
-                        ? { ...state.selectedArticle, picture: user.picture }
-                        : state.selectedArticle
+                      selectedUser: state.selectedUser?._id === userId
+                        ? { ...state.selectedUser, picture: user.picture }
+                        : state.selectedUser
                     }));
                   })
                 );
