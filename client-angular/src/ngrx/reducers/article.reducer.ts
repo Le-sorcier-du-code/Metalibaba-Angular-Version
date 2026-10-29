@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import * as ArticleActions from './article.actions';
+import * as ArticleActions from '../actions/articles.action'
 
 //A perfectionner et corriger
 
