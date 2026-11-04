@@ -3,9 +3,9 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserStore } from '../../ngrx/actions/user.store';
 import { CartStore } from '../../ngrx/actions/cart.store';
-import { LogoutComponent } from '../logout/logout.component';
-import { ConnexionComponent } from '../connexion/connexion.component';
-import { InscriptionComponent } from '../inscription/inscription.component';
+import {Logout} from "../logout/logout"
+import { Connexion } from '../connexion/connexion'
+import { Inscription } from '../inscription/inscription';
 
 @Component({
   selector: 'app-header',
@@ -13,9 +13,9 @@ import { InscriptionComponent } from '../inscription/inscription.component';
   imports: [
     CommonModule,
     RouterLink,
-    LogoutComponent,
-    ConnexionComponent,
-    InscriptionComponent
+    Logout,
+    Connexion,
+    Inscription
   ],
   templateUrl: './header.html',
   styleUrl: './header.css'
