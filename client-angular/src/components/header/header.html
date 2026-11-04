@@ -3,7 +3,6 @@
     Metalibaba
   </h1>
 
-  <!-- Nav desktop -->
   <nav class="hidden sticky flex-row justify-around mt-2 sm:flex">
     <a routerLink="/" class="text-gray-100 font-serif text-xl">Accueil</a>
 
@@ -11,8 +10,6 @@
       <a routerLink="/user-profile/{{ uid() }}" class="text-gray-100 font-serif text-xl">
         <h5>{{ uidMessage() }}</h5>
       </a>
-
-      <!-- <app-logout /> -->
 
       <div>
         <span class="spanCart">{{ cartNumber() }}</span>
@@ -36,7 +33,7 @@
             >
               X
             </span>
-            <!-- <app-connexion /> -->
+
           </div>
         </div>
       }
@@ -50,20 +47,17 @@
             >
               X
             </span>
-            <!-- <app-inscription /> -->
           </div>
         </div>
       }
     }
   </nav>
 
-  <!-- Bouton hamburger mobile -->
+
   <h2 class="flex m-3 sm:hidden sticky text-white" (click)="toggleHamburger()">
     ☰
-    <!-- plus tard tu pourras remettre un vrai composant hamburger -->
   </h2>
 
-  <!-- Menu mobile -->
   @if (hamburger()) {
     <nav
       class="flex flex-col items-start justify-start ml-2 py-2 absolute border-2 border-black
@@ -76,8 +70,6 @@
         <a routerLink="/user-profile/{{ uid() }}" class="w-[100%] text-center m-auto text-black">
           <h5>{{ uidMessage() }}</h5>
         </a>
-
-        <!-- <app-logout /> -->
 
         <div class="w-[100%] text-center m-auto text-black">
           <span>{{ cartNumber() }}</span>
