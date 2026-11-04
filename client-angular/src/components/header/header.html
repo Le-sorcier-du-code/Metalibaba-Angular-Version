@@ -1,1 +1,96 @@
-<p>header works!</p>
+<div class="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 bg-cover">
+  <h1 class="text-gray-400 font-serif text-center">
+    Metalibaba
+  </h1>
+
+  <!-- Nav desktop -->
+  <nav class="hidden sticky flex-row justify-around mt-2 sm:flex">
+    <a routerLink="/" class="text-gray-100 font-serif text-xl">Accueil</a>
+
+    @if (uid()) {
+      <a routerLink="/user-profile/{{ uid() }}" class="text-gray-100 font-serif text-xl">
+        <h5>{{ uidMessage() }}</h5>
+      </a>
+
+      <!-- <app-logout /> -->
+
+      <div>
+        <span class="spanCart">{{ cartNumber() }}</span>
+        <a routerLink="/cart" class="text-gray-100 font-serif text-xl">Panier</a>
+      </div>
+    } @else {
+      <span class="text-gray-100 font-serif text-xl cursor-pointer" (click)="switchConnexion()">
+        Connexion
+      </span>
+
+      <span class="text-gray-100 font-serif text-xl cursor-pointer" (click)="switchInscription()">
+        Inscription
+      </span>
+
+      @if (connexionModal()) {
+        <div class="modal-backdrop">
+          <div class="max-w-[100%] p-2 bg-white rounded">
+            <span
+              class="bg-slate-50 py-2 px-4 rounded-md cursor-pointer"
+              (click)="switchConnexion()"
+            >
+              X
+            </span>
+            <!-- <app-connexion /> -->
+          </div>
+        </div>
+      }
+
+      @if (inscriptionModal()) {
+        <div class="modal-backdrop">
+          <div class="max-w-[100%] p-2 bg-white rounded">
+            <span
+              class="bg-slate-50 py-2 px-4 rounded-md cursor-pointer"
+              (click)="switchInscription()"
+            >
+              X
+            </span>
+            <!-- <app-inscription /> -->
+          </div>
+        </div>
+      }
+    }
+  </nav>
+
+  <!-- Bouton hamburger mobile -->
+  <h2 class="flex m-3 sm:hidden sticky text-white" (click)="toggleHamburger()">
+    ☰
+    <!-- plus tard tu pourras remettre un vrai composant hamburger -->
+  </h2>
+
+  <!-- Menu mobile -->
+  @if (hamburger()) {
+    <nav
+      class="flex flex-col items-start justify-start ml-2 py-2 absolute border-2 border-black
+             sm:hidden rounded-s max-w-[50%] min-w-[25%]
+             bg-gradient-to-r from-slate-200 via-slate-300 to-slate-400"
+    >
+      <a routerLink="/" class="w-[100%] text-center m-auto text-black">Accueil</a>
+
+      @if (uid()) {
+        <a routerLink="/user-profile/{{ uid() }}" class="w-[100%] text-center m-auto text-black">
+          <h5>{{ uidMessage() }}</h5>
+        </a>
+
+        <!-- <app-logout /> -->
+
+        <div class="w-[100%] text-center m-auto text-black">
+          <span>{{ cartNumber() }}</span>
+          <a routerLink="/cart">Panier</a>
+        </div>
+      } @else {
+        <span class="w-[100%] text-center m-auto text-black" (click)="switchConnexion()">
+          Connexion
+        </span>
+        <span class="w-[100%] text-center m-auto text-black" (click)="switchInscription()">
+          Inscription
+        </span>
+      }
+    </nav>
+  }
+</div>
