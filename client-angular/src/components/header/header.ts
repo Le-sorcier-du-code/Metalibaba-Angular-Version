@@ -21,20 +21,19 @@ import { InscriptionComponent } from '../inscription/inscription.component';
   styleUrl: './header.css'
 })
 export class HeaderComponent {
-  private userStore = inject(UserStore);
-  private cartStore = inject(CartStore);
+  private user = inject(UserStore) as any;
+  private cart = inject(CartStore) as any;
 
-  // équivalents de useState
+  //signal pour l'équivalent Angular de l'ami useState
   hamburger = signal(false);
   connexionModal = signal(false);
   inscriptionModal = signal(false);
 
-  // équivalent de uid (à brancher sur ton auth réelle)
-  // pour l'instant on suppose que userStore expose currentUser / isLoggedIn
-  uid = computed(() => this.userStore.currentUser()?._id ?? null);
+  // équivalent de uid
+  uid = computed(() => (this.user.selectedUser() as { _id?: string } | null)?._id ?? null);
 
-  userData = computed(() => this.userStore.currentUser());
-  cartNumber = computed(() => this.cartStore.cart().length);
+  userData = computed(() => this.user.selectedUser());
+  cartNumber = computed(() => this.cart.cart().length);
 
   uidMessage = computed(() => {
     const user = this.userData();
