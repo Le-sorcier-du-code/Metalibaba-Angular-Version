@@ -15,6 +15,7 @@ import { CartStore } from '../../ngrx/actions/cart.store';
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
+
 export class HeaderComponent {
   private user = inject(UserStore) as any;
   private cart = inject(CartStore) as any;
