@@ -3,12 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {UserStore} from "../../ngrx/actions/user.store"
 
 @Component({
-  selector: 'app-connexion',
+  selector: 'app-inscription',
   imports: [],
   templateUrl: './inscription.html',
   styleUrl: './inscription.css',
 })
-export class Connexion {
+export class Inscription {
 
   private http = inject(HttpClient);
   private user = inject(UserStore) as any;
