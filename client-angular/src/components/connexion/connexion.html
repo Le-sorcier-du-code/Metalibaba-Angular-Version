@@ -1,1 +1,51 @@
+<div>
+  <form
+    (submit)="handleLogin($event)"
+    class="bg-slate-100 border-l-4 border-b-4 rounded-md border-2 border-black
+           mx-6 my-4 sm:mx-40 md:text-base
+           bg-gradient-to-r from-slate-300 via-slate-400 to-slate-300
+           lg:mx-96 text-base flex flex-col items-center p-2"
+  >
+    <label class="text-black font-serif" for="email">Email</label>
 
+    <input
+      class="border-2 border-black"
+      type="text"
+      id="email"
+      name="email"
+      [value]="email()"
+      (input)="email.set($any($event.target).value)"
+    />
+
+    @if (emailError()) {
+      <div class="email error text-black font-serif">{{ emailError() }}</div>
+    }
+
+    <br />
+
+    <label class="text-black font-serif" for="password">Mot de passe</label>
+
+    <input
+      class="border-2 border-black"
+      type="password"
+      id="password"
+      name="password"
+      [value]="password()"
+      (input)="password.set($any($event.target).value)"
+    />
+
+    @if (passwordError()) {
+      <div class="password error text-black font-serif">{{ passwordError() }}</div>
+    }
+
+    <br />
+
+    <input
+      Connexion
+    />
+
+    <a routerLink="/reset-password" class="my-4 px-2 text-black font-serif underline">
+      Mot de passe Oublié ?
+    </a>
+  </form>
+</div>
