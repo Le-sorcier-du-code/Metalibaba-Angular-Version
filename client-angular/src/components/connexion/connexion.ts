@@ -1,3 +1,4 @@
+import { fs } from 'fs';
 import { Component, signal, inject } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {UserStore} from "../../ngrx/actions/user.store"
@@ -19,7 +20,7 @@ export class Connexion {
   password = signal("")
   passwordControl = signal("")
   termsAccepted = signal(false)
-  setFormSubmit = signal(false)
+  formSubmit = signal(false)
 
   pseudoError = signal("")
   emailError = signal("")
@@ -68,7 +69,7 @@ export class Connexion {
           next: (response) => {
             if (response.success) {
               this.user.setUser(response.user);
-              this.setFormSubmit.set(true);
+              this.formSubmit.set(true);
             }
             else {
               if (response.errors) {
@@ -77,7 +78,7 @@ export class Connexion {
                 this.addressError.set(response.errors.address || "");
                 this.passwordError.set(response.errors.password || "");
               } else {
-                this.setFormSubmit.set(true) }
+                this.formSubmit.set(true) }
             }
           },
           error: (err) => {
