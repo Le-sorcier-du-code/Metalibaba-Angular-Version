@@ -40,7 +40,6 @@ export class Connexion {
 
     const password = this.password();
     const passwordControl = this.passwordControl();
-    const terms = this.termsAccepted();
 
     let hasError = false;
 
@@ -51,30 +50,40 @@ export class Connexion {
       if(password.length < 8) {
         this.passwordConfError.set("Mot de passe trop court, minimum 8 caractères")
       }
-      if(!terms.checked){
+      if(!this.termsAccepted()){
         this.termsError.set("Veuillez accepter les conditions générales")
       }
-    } else {
-      await axios({
-        method:"post",
-        url: `${process.env.REACT_APP_API_URL}api/user/register`,
-        data: {
-          this.userpseudo,
-          this.user.email,
-          this.useraddress
-        }
-      })
-      .then((res:any)=> {
-        if (res.data.errors){
-          pseudoError.innerHTML = res.data.errors.pseudo
-          emailError.innerHTML = res.data.errors.email
-          addressError.innerHTML = res.data.errors.address
-          passwordError.innerHTML = res.data.errors.password
-        } else {
-          this.setFormSubmit.set(true)
-        }
-      })
-      .catch((err:string)=> console.log(err))
+
+      if (hasError)
+        return;
+
+      this.http
+        .post<any>(`${this.env.REACT_APP_API_URL}api/user/register`, {
+          pseudo: this.pseudo(),
+          email: this.email(),
+          address: this.address(),
+          password: this.password(),
+        })
+        .subscribe({
+          next: (response) => {
+            if (response.success) {
+              this.user.setUser(response.user);
+              this.setFormSubmit.set(true);
+            }
+            else {
+              if (response.errors) {
+                this.pseudoError.set(response.errors.pseudo || "");
+                this.emailError.set(response.errors.email || "");
+                this.addressError.set(response.errors.address || "");
+                this.passwordError.set(response.errors.password || "");
+              } else {
+                this.setFormSubmit.set(true) }
+            }
+          },
+          error: (err) => {
+            console.log(err)
+          },
+        });
     }
   }
 }
