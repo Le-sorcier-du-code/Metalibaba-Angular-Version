@@ -1,1 +1,59 @@
-<p>inscription works!</p>
+@if (formSubmit()) {
+  <p>Inscription réussie</p>
+} @else {
+  <form (submit)="handleRegister($event)">
+    <input
+      [value]="pseudo()"
+      (input)="pseudo.set($any($event.target).value)"
+      placeholder="Pseudo"
+    />
+    @if (pseudoError()) {
+      <p class="error">{{ pseudoError() }}</p>
+    }
+
+    <input
+      [value]="email()"
+      (input)="email.set($any($event.target).value)"
+      placeholder="Email"
+    />
+    @if (emailError()) {
+      <p class="error">{{ emailError() }}</p>
+    }
+
+    <input
+      type="password"
+      [value]="password()"
+      (input)="password.set($any($event.target).value)"
+      placeholder="Mot de passe"
+    />
+    @if (passwordError()) {
+      <p class="error">{{ passwordError() }}</p>
+    }
+
+    <input
+      type="password"
+      [value]="passwordControl()"
+      (input)="passwordControl.set($any($event.target).value)"
+      placeholder="Confirmer le mot de passe"
+    />
+    @if (passwordConfError()) {
+      <p class="error">{{ passwordConfError() }}</p>
+    }
+
+    <label>
+      <input
+        type="checkbox"
+        [checked]="termsAccepted()"
+        (change)="termsAccepted.set($any($event.target).checked)"
+      />
+      J’accepte les conditions
+    </label>
+    @if (termsError()) {
+      <p class="error">{{ termsError() }}</p>
+    }
+
+    <button type="submit">
+      S'inscrire
+    </button>
+  </form>
+}
