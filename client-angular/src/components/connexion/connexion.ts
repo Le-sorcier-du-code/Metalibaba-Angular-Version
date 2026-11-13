@@ -1,4 +1,5 @@
 import { Component, signal, inject } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 import {UserStore} from "../../ngrx/actions/user.store"
 
 @Component({
@@ -8,39 +9,50 @@ import {UserStore} from "../../ngrx/actions/user.store"
   styleUrl: './connexion.css',
 })
 export class Connexion {
-  handleRegister = async(e:any)=> {
+
+  private http = inject(HttpClient);
+  private user = inject(UserStore) as any;
+
+  pseudo = signal("")
+  email = signal("")
+  address = signal("")
+  password = signal("")
+  passwordControl = signal("")
+  termsAccepted = signal(false)
+  setFormSubmit = signal(false)
+
+  pseudoError = signal("")
+  emailError = signal("")
+  addressError = signal("")
+  passwordError = signal("")
+  passwordConfError = signal("")
+  termsError = signal("")
+
+  handleRegister = async(e:Event)=> {
     e.preventDefault()
 
-    private user = inject(UserStore) as any;
+    this.pseudoError.set("")
+    this.emailError.set("")
+    this.addressError.set("")
+    this.passwordError.set("")
+    this.passwordConfError.set("")
+    this.termsError.set("")
 
-    const pseudo = signal("")
-    const email = signal("")
-    const address = signal("")
-    const password = signal("")
-    const passwordControl = signal("")
-    const setFormSubmit = signal(false)
+    const password = this.password();
+    const passwordControl = this.passwordControl();
+    const terms = this.termsAccepted();
 
-    const terms = document.getElementById("terms") as HTMLInputElement
+    let hasError = false;
 
-    const pseudoError = document.querySelector("this.pseudo.error") as HTMLInputElement
-    const emailError = document.querySelector("this.email.error") as HTMLInputElement
-    const addressError = document.querySelector("this.address.error") as HTMLInputElement
-    const passwordError = document.querySelector("this.password.error") as HTMLInputElement
-    const passwordConfError = document.querySelector("this.password-conf.error") as HTMLInputElement
-    const termsError = document.querySelector("this.terms.error") as HTMLInputElement
-
-    passwordConfError.innerHTML=""
-    termsError.innerHTML=""
-
-    if(this.user.password !== passwordConfError.value || this.userpassword.length < 8 || !terms.checked) {
+    if(password !== passwordControl || password.length < 8 || !this.termsAccepted()) {
       if (password !== passwordControl) {
-        passwordConfError.innerHTML ="Les mots de passe ne correspondent pas"
+        this.passwordConfError.set("Les mots de passe ne correspondent pas")
       }
       if(password.length < 8) {
-        passwordConfError.innerHTML ="Mot de passe trop court, minimum 8 caractères"
+        this.passwordConfError.set("Mot de passe trop court, minimum 8 caractères")
       }
       if(!terms.checked){
-        termsError.innerHTML="Veuillez accepter les conditions générales"
+        this.termsError.set("Veuillez accepter les conditions générales")
       }
     } else {
       await axios({
