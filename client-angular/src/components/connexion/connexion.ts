@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
+import {UserStore} from "../../ngrx/actions/user.store"
 
 @Component({
   selector: 'app-connexion',
@@ -10,24 +11,28 @@ export class Connexion {
   handleRegister = async(e:any)=> {
     e.preventDefault()
 
+    private user = inject(UserStore) as any;
+
     const pseudo = signal("")
     const email = signal("")
     const address = signal("")
+    const password = signal("")
+    const passwordControl = signal("")
     const setFormSubmit = signal(false)
 
     const terms = document.getElementById("terms") as HTMLInputElement
 
     const pseudoError = document.querySelector("this.pseudo.error") as HTMLInputElement
-    const emailError = document.querySelector(".email.error") as HTMLInputElement
-    const addressError = document.querySelector(".address.error") as HTMLInputElement
-    const passwordError = document.querySelector(".password.error") as HTMLInputElement
-    const passwordConfError = document.querySelector(".password-conf.error") as HTMLInputElement
-    const termsError = document.querySelector(".terms.error") as HTMLInputElement
+    const emailError = document.querySelector("this.email.error") as HTMLInputElement
+    const addressError = document.querySelector("this.address.error") as HTMLInputElement
+    const passwordError = document.querySelector("this.password.error") as HTMLInputElement
+    const passwordConfError = document.querySelector("this.password-conf.error") as HTMLInputElement
+    const termsError = document.querySelector("this.terms.error") as HTMLInputElement
 
     passwordConfError.innerHTML=""
     termsError.innerHTML=""
 
-    if(password !== passwordConfError.value || password.length < 8 || !terms.checked) {
+    if(this.user.password !== passwordConfError.value || this.userpassword.length < 8 || !terms.checked) {
       if (password !== passwordControl) {
         passwordConfError.innerHTML ="Les mots de passe ne correspondent pas"
       }
@@ -42,9 +47,9 @@ export class Connexion {
         method:"post",
         url: `${process.env.REACT_APP_API_URL}api/user/register`,
         data: {
-          pseudo,
-          email,
-          address
+          this.userpseudo,
+          this.user.email,
+          this.useraddress
         }
       })
       .then((res:any)=> {
